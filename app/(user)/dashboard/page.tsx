@@ -1,3 +1,9 @@
+import NewProject from '@/components/NewProject';
+
 export default function DashboardPage() {
-  return <div>DashboardPage</div>;
+  return (
+    <div>
+      <NewProject />
+    </div>
+  );
 }
