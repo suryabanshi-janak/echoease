@@ -13,6 +13,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import SubmitButton from './SubmitButton';
+import { createProject } from '@/actions/createProject';
 
 const NewProject = () => {
   return (
@@ -29,7 +31,7 @@ const NewProject = () => {
             Create a new project to get started
           </DialogDescription>
         </DialogHeader>
-        <form className='flex gap-4 flex-col'>
+        <form className='flex gap-4 flex-col' action={createProject}>
           <div className='grid sm:grid-cols-2 gap-4'>
             <div className='flex flex-col gap-2'>
               <Label htmlFor='name'>Name</Label>
@@ -48,10 +50,9 @@ const NewProject = () => {
               placeholder='Description (optional)'
             />
           </div>
+
+          <SubmitButton />
         </form>
-        <DialogFooter>
-          <Button type='submit'>Creat Project</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
