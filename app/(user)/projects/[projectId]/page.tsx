@@ -4,6 +4,7 @@ import { ChevronLeft, Code } from 'lucide-react';
 
 import { db } from '@/db';
 import { projects as dbProjects } from '@/db/schema';
+import Table from '@/components/Table';
 
 export default async function ProjectPage({
   params,
@@ -14,6 +15,9 @@ export default async function ProjectPage({
 
   const projects = await db.query.projects.findMany({
     where: eq(dbProjects.id, parseInt(params.projectId)),
+    with: {
+      feedbacks: true,
+    },
   });
 
   const project = projects[0];
@@ -46,6 +50,8 @@ export default async function ProjectPage({
           </Link>
         </div>
       </div>
+
+      <Table data={project.feedbacks} />
     </div>
   );
 }
