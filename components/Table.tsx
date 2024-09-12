@@ -7,7 +7,6 @@ import {
   ChevronsRight,
   ChevronsLeft,
 } from 'lucide-react';
-
 import {
   Column,
   ColumnDef,
@@ -20,15 +19,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-
 import { InferSelectModel } from 'drizzle-orm';
+
 import { feedbacks } from '@/db/schema';
+import Ratings from './Rating';
 
 type Feedback = InferSelectModel<typeof feedbacks>;
 
 function Table(props: { data: Feedback[] }) {
-  const rerender = React.useReducer(() => ({}), {})[1];
-
   const columns = React.useMemo<ColumnDef<Feedback>[]>(
     () => [
       {
@@ -48,7 +46,11 @@ function Table(props: { data: Feedback[] }) {
         accessorFn: (row) => row.rating,
         id: 'rating',
         cell: (info) =>
-          info.getValue() === null ? <span>N/A</span> : info.getValue(),
+          info.getValue() === null ? (
+            <span>N/A</span>
+          ) : (
+            <Ratings rating={info.getValue() as number} count={5} />
+          ),
         header: () => <span>Rating</span>,
         footer: (props) => props.column.id,
       },
