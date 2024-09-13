@@ -7,6 +7,7 @@ import {
 } from '@clerk/nextjs';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import HeaderMenu from './HeaderMenu';
 
 export default function Header() {
   return (
@@ -25,6 +26,7 @@ export default function Header() {
             </SignedOut>
             <SignedIn>
               <UserButton />
+              <HeaderMenu />
             </SignedIn>
           </div>
         </div>
