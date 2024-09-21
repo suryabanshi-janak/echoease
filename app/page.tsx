@@ -1,113 +1,170 @@
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
+import { SignedOut, SignUpButton, SignedIn } from '@clerk/nextjs';
+import { LogIn, Github } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import PricingCard from '@/components/PricingCard';
+
+export type PricingPlan = {
+  title: string;
+  price: number;
+  description: string;
+  isPopular: boolean;
+  features: string[];
+  url: string;
+};
+
+const features = [
+  {
+    title: 'Seamless Integration',
+    description: 'Easily integrate with your existing tools and services.',
+  },
+  {
+    title: 'Customizable',
+    description: 'Customize Nexx to fit your needs and preferences.',
+    icon: 'icon-2',
+  },
+  {
+    title: 'Analytics',
+    description: 'Track and analyze feedback to make informed decisions.',
+  },
+  {
+    title: 'Secure',
+    description: 'Your data is safe and secure with Nexx.',
+  },
+  {
+    title: 'Scalable',
+    description: 'Grow your business with Nexx as you scale.',
+  },
+  {
+    title: 'Fast Support',
+    description: 'Get help when you need it with our fast support team.',
+  },
+];
+
+export const pricingPlans: PricingPlan[] = [
+  {
+    title: 'Free',
+    price: 0,
+    description: 'For small teams just getting started',
+    isPopular: false,
+    url: '/dashboard',
+    features: [
+      '3 projects',
+      'Unlimited users',
+      '2GB storage',
+      'Priority support',
+    ],
+  },
+  {
+    title: 'Monthly',
+    price: 6.99,
+    description: 'For growing teams',
+    isPopular: true,
+    url: '/payments/subscribe?plan=monthly',
+    features: [
+      'Unlimited projects',
+      'Unlimited users',
+      '5GB storage',
+      'Priority support',
+    ],
+  },
+  {
+    title: 'Yearly',
+    price: 39.99,
+    description: 'Upgrade to save more!',
+    isPopular: false,
+    url: '/payments/subscribe?plan=yearly',
+    features: [
+      'Unlimited projects',
+      'Unlimited users',
+      '50GB storage',
+      '24/7 support',
+    ],
+  },
+];
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
+    <main className='flex min-h-screen flex-col items-center justify-between px-24'>
+      <section className='grow'>
+        <div className='container mx-auto px-4 mb-24 mt-4 flex flex-col md:flex-row justify-center'>
+          <div className='flex flex-col max-w-sm justify-center'>
+            <div className='mb-8'>
+              <h1 className='mb-5 text-5xl font-extrabold leading-tight'>
+                Collect your feedback seamlessly
+              </h1>
+              <p className='text-gray-500 texl-lg'>
+                Easily integrate Nexx and start collecting feedback today.
+              </p>
+            </div>
+            <div>
+              <SignedOut>
+                <SignUpButton>
+                  <div className='flex gap-3'>
+                    <Button>
+                      <LogIn className='w-4 h-4 mr-2' />
+                      Get Started
+                    </Button>
+                    <Button variant='secondary' asChild>
+                      <Link href='https://github.com'>
+                        <Github className='w-4 h-4 mr-2' />
+                        GitHub
+                      </Link>
+                    </Button>
+                  </div>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <Button asChild>
+                  <Link href='/dashboard'>Dashboard</Link>
+                </Button>
+              </SignedIn>
+            </div>
+          </div>
+          <div className='flex-1 max-w-lg'>
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+              src='/demo.gif'
+              alt='demo'
+              layout='responsive'
+              width={155}
+              height={155}
+              unoptimized={true}
             />
-          </a>
+          </div>
+        </div>
+      </section>
+
+      <section className='container mx-auto max-w-screen-xl px-4 my-24 flex items-center flex-col'>
+        <h2 className='mb-6 text-2xl font-bold'>Features</h2>
+        <div className='container mx-auto'>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+            {features.map(({ title, description }, index) => (
+              <div className='p-5 border rounded-lg shadow-md' key={title}>
+                <h4 className='mb-2 font-semibold'>{title}</h4>
+                <p>{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className='text-center'>
+        <h1 className='capitalize text-3xl'>Pricing</h1>
+        <h2 className='font-extrabold text-3xl mb-8 pt-3'>
+          Flexible Pricing to Fit Your Needs
+        </h2>
+        <div className='mt-10 grid items-center grid-cols-1 gap-3 md:grid-cols-3 max-w-screen-xl'>
+          {pricingPlans.map((plan, index) => (
+            <PricingCard key={index} {...plan} />
+          ))}
         </div>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <footer className='mb-3 mt-24 border-t flex w-full p-4'>
+        <p className='text-gray-800'>&copy; 2024 Company, Inc.</p>
+      </footer>
     </main>
   );
 }
