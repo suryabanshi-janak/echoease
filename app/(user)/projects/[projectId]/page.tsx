@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { eq } from 'drizzle-orm';
-import { ChevronLeft, Code } from 'lucide-react';
+import { ChevronLeft, Code, Globe } from 'lucide-react';
 
 import { db } from '@/db';
 import { projects as dbProjects } from '@/db/schema';
@@ -41,6 +41,16 @@ export default async function ProjectPage({
           </h2>
         </div>
         <div className='flex flex-col'>
+          {project.url ? (
+            <Link
+              href={project.url}
+              className='underline text-indigo-700 flex items-center'
+            >
+              <Globe className='h-5 w-5 mr-1' />
+              <span className='text-lg'>Visit site</span>
+            </Link>
+          ) : null}
+
           <Link
             href={`/projects/${params.projectId}/instructions`}
             className='underline text-indigo-700 flex items-center mt-2'
